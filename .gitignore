@@ -1,3 +1,7 @@
+# E265
+*.e265
+main
+
 # Compiled Object files
 *.slo
 *.lo
