@@ -1,23 +1,34 @@
 #include <fstream>
+#include <iostream>
+#include <cstdlib>
 
-#include "CImg.h"
 #include "Frame.cpp"
 #include "Encoder.cpp"
 
-#define cimg_use_png
-
-using namespace cimg_library;
 using namespace std;
-int main(){
-  CImg<char> imgpng("img.png");
-  int height = imgpng.height();
-  int width = imgpng.width();
-  Frame frame (height, width, vector<char>(imgpng.data(), imgpng.data() + height*width*3));
-  Encoder encoder;
-  vector<char> encodedFrame = encoder.encode_frame(frame);
-  {
-    ofstream encodedfile("encodedFrame.e265", ofstream::binary);
-    encodedfile.write(&encodedFrame[0], encodedFrame.size());
+
+int main(int argc, char* argv[]){
+  
+  if (argc < 5) {
+    cerr << "Usage: " << argv[0] << " IN_FILE(IYUV/I420)" << " WIDTH" << " HEIGHT" << " OUT_FILE" << endl;
+    return 1;
   }
 
+  int width = atoi(argv[2]);
+  int height = atoi(argv[3]);
+
+  ifstream moviefile (argv[1], ios::in | ios::binary);
+  ofstream encodedfile (argv[4], ios::in | ios::binary | ios_base::app);
+
+  Encoder encoder;
+
+  int buffersize = height*width*3/2; //Assuming YUV 4:2:0 sampling
+  unsigned char buffer[buffersize];
+
+  while(moviefile.read((char *)buffer, buffersize)) {
+    Frame frame(buffer, width, height);
+    encodedfile.write((char *)encoder.encode_frame(frame), buffersize);
+  }
+  moviefile.close();
+  encodedfile.close();
 }

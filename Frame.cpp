@@ -1,6 +1,6 @@
 #include "Frame.h"
 
-Frame::Frame(int height, int width, vector<char> framearray) : _height(height), _width(width), _frameArray(framearray) {
+Frame::Frame(unsigned char * framearray, int height, int width) : _frameArray(framearray), _width(width), _height(height) {
 }
 
 int Frame::height() {
@@ -11,9 +11,6 @@ int Frame::width() {
     return _width; 
 }
 
-char Frame::get_pixel(int x, int y, int c) {
-    return _frameArray[x + y*(long)_width + c*(long)_width*_height];
-}
-vector<char> Frame::get_frame_array(void) {
+unsigned char * Frame::get_frame_array(void) {
     return _frameArray;
 }

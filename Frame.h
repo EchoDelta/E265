@@ -1,16 +1,14 @@
 #ifndef FRAME_H
 #define FRAME_H
-#include <vector>
 
 using namespace std;
 class Frame {
-    int _height, _width;
-    vector<char> _frameArray;
+    unsigned char* _frameArray;
+    int _width, _height;
 public:
-    Frame(int, int, vector<char>);
+    Frame(unsigned char *, int, int);
     int height(void);
     int width(void);
-    char get_pixel(int, int, int);
-    vector<char> get_frame_array(void);
+    unsigned char * get_frame_array(void);
 };
 #endif
