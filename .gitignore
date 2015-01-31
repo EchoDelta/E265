@@ -1,6 +1,9 @@
 # E265
 *.e265
-main
+encoder
+decoder
+
+.DS_Store
 
 # Compiled Object files
 *.slo

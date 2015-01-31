@@ -1,7 +1,12 @@
 CC=g++
 CFLAGS=
-all: main.cpp
-	$(CC) $(CFLAGS) main.cpp -o main
+
+all: encoder decoder
+encoder:
+	$(CC) $(CFLAGS) src/main_encoder.cpp -o encoder
+
+decoder:
+	$(CC) $(CFLAGS) src/main_decoder.cpp -o decoder	
 
 clean:
-	rm -rf *.o main
+	rm -rf *.o encoder decoder
