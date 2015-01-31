@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cstdlib>
 
-#include "Frame.cpp"
 #include "Encoder.cpp"
 
 using namespace std;
@@ -20,14 +19,17 @@ int main(int argc, char* argv[]){
   ifstream moviefile (argv[1], ios::in | ios::binary);
   ofstream encodedfile (argv[4], ios::in | ios::binary | ios_base::app);
 
-  Encoder encoder;
+  Encoder encoder(width, height);
 
   int buffersize = height*width*3/2; //Assuming YUV 4:2:0 sampling
-  unsigned char buffer[buffersize];
+  unsigned char buffer_input[buffersize];
+  unsigned char buffer_output[buffersize];
 
-  while(moviefile.read((char *)buffer, buffersize)) {
-    Frame frame(buffer, width, height);
-    encodedfile.write((char *)encoder.encode_frame(frame), buffersize);
+  while(moviefile.read((char *)buffer_input, buffersize)) {
+    
+    encoder.encode(buffer_input, buffer_output);
+
+    encodedfile.write((char *)buffer_output, buffersize);
   }
   moviefile.close();
   encodedfile.close();
